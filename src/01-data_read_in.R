@@ -362,7 +362,7 @@ treatment_category_model_gt_table <-
       age_at_admission_years = "Age at admission (years)",
       gender = "Gender",
       race ~ "Race",
-      resident_status ~ "Resident Status"
+      # resident_status ~ "Resident Status"
     )
   ) |>
   bold_labels()
