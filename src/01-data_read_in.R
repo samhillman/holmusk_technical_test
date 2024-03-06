@@ -351,7 +351,7 @@ age_at_admission_distributions <-
   ggplot(aes(x = floor(age_at_admission_years))) +
   geom_histogram() +
   theme_bw() +
-  labs(x = "Age at inpatient admnission (years)") +
+  labs(x = "Age at inpatient admission (years)") +
   theme(text = element_text(size = 20))
 
 treatment_category_model_gt_table <-
