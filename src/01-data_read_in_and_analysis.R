@@ -9,6 +9,7 @@ library(testthat) # for basic data tests
 library(broom) # for model output
 library(gt) # for model output
 library(gtsummary) # for model output
+library(gtforester) # for model output
 
 # data read in ------------------------------------------------------------
 
@@ -362,7 +363,7 @@ treatment_category_model_gt_table <-
       age_at_admission_years = "Age at admission (years)",
       gender = "Gender",
       race ~ "Race",
-      # resident_status ~ "Resident Status"
+      resident_status ~ "Resident Status"
     )
   ) |>
   bold_labels()
