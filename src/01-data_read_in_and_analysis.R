@@ -252,6 +252,16 @@ clinical_and_demographic_data |>
   theme_bw() +
   labs(x = "Age at inpatient admnission (years)")
 
+# changes in co-prescribing per year?
+clinical_and_demographic_data |>
+  mutate(admission_year = floor_date(date_of_admission, unit = "years")) |>
+  ggplot(aes(x = admission_year)) +
+  geom_histogram() +
+  facet_wrap(~treatment_combination) +
+  theme_bw() +
+  labs(x = "Year of inpatient admnission (years)")
+
+
 # Cox model isn't really appropriate for this data - let's use a LM
 
 # something along the lines of this!
@@ -269,14 +279,16 @@ names(clinical_and_demographic_data)
 
 treatment_category_model <- glmmTMB(
   length_of_stay ~ treatment_category +
-    age_at_admission_years + gender + race + resident_status,
+    age_at_admission_years + gender + race + resident_status +
+    cgis_adm,
   data = clinical_and_demographic_data,
   family = gaussian()
 )
 
 treatment_combination_model <- glmmTMB(
   length_of_stay ~ treatment_combination +
-    age_at_admission_years + gender + race + resident_status,
+    age_at_admission_years + gender + race + resident_status +
+    cgis_adm,
   data = clinical_and_demographic_data,
   family = gaussian()
 )
@@ -317,7 +329,8 @@ treatment_category_model |>
       age_at_admission_years = "Age at admission (years)",
       gender = "Gender",
       race ~ "Race",
-      resident_status ~ "Resident Status"
+      resident_status ~ "Resident Status",
+      cgis_adm ~ "Clinical Global Impression Scale (numeric, 1-7)"
     )
   ) |>
   bold_labels()
@@ -329,7 +342,8 @@ treatment_combination_model |>
       age_at_admission_years = "Age at admission (years)",
       gender = "Gender",
       race ~ "Race",
-      resident_status ~ "Resident Status"
+      resident_status ~ "Resident Status",
+      cgis_adm ~ "Clinical Global Impression Scale (numeric, 1-7)"
     )
   ) |>
   bold_labels()
@@ -344,7 +358,10 @@ length_of_stay_distributions <-
   theme_bw() +
   labs(x = "Length of inpatient stay (days)") +
   facet_wrap(~treatment_combination) +
-  theme(text = element_text(size = 20))
+  theme(
+    text = element_text(size = 20),
+    strip.text = element_text(size = 12)
+  )
 
 
 age_at_admission_distributions <-
@@ -353,7 +370,24 @@ age_at_admission_distributions <-
   geom_histogram() +
   theme_bw() +
   labs(x = "Age at inpatient admission (years)") +
-  theme(text = element_text(size = 20))
+  theme(
+    text = element_text(size = 20),
+    strip.text = element_text(size = 12)
+  )
+
+prescribing_patterns_over_time <-
+  clinical_and_demographic_data |>
+  mutate(admission_year = floor_date(date_of_admission, unit = "years")) |>
+  ggplot(aes(x = admission_year)) +
+  geom_histogram() +
+  facet_wrap(~treatment_combination) +
+  theme_bw() +
+  labs(x = "Year of inpatient admnission (years)") +
+  theme(
+    text = element_text(size = 20),
+    strip.text = element_text(size = 12)
+  )
+
 
 treatment_category_model_gt_table <-
   treatment_category_model |>
@@ -363,7 +397,8 @@ treatment_category_model_gt_table <-
       age_at_admission_years = "Age at admission (years)",
       gender = "Gender",
       race ~ "Race",
-      resident_status ~ "Resident Status"
+      resident_status ~ "Resident Status",
+      cgis_adm ~ "Clinical Global Impression Scale (numeric, 1-7)"
     )
   ) |>
   bold_labels()
@@ -376,7 +411,8 @@ treatment_combination_model_gt_table <-
       age_at_admission_years = "Age at admission (years)",
       gender = "Gender",
       race ~ "Race",
-      resident_status ~ "Resident Status"
+      resident_status ~ "Resident Status",
+      cgis_adm ~ "Clinical Global Impression Scale (numeric, 1-7)"
     )
   ) |>
   bold_labels()
@@ -386,6 +422,10 @@ ggsave(here("output/length_of_stay_distributions.png"), length_of_stay_distribut
 )
 
 ggsave(here("output/age_at_admission_distributions.png"), age_at_admission_distributions,
+  height = 12, width = 20, units = "in"
+)
+
+ggsave(here("output/prescribing_patterns_over_time.png"), prescribing_patterns_over_time,
   height = 12, width = 20, units = "in"
 )
 
