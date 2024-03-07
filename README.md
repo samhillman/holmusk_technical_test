@@ -23,7 +23,7 @@ To initiate the project with `renv`, follow these steps:
 2. Navigate to the project directory:
 
     ```bash
-    cd holmus_k-r-project_technical_test
+    cd holmusk_r_project_technical_test
     ```
 
 3. Open the project in RStudio by clicking on the `holmusk_technical_test.Rproj` file.
