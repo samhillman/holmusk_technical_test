@@ -17,16 +17,16 @@ To initiate the project with `renv`, follow these steps:
 1. Clone the repository to your local machine:
 
     ```bash
-    git clone https://github.com/yourusername/holmusk-r-project.git
+    git clone https://github.com/samhillman/holmusk_technical_test
     ```
 
 2. Navigate to the project directory:
 
     ```bash
-    cd holmusk-r-project
+    cd holmus_k-r-project_technical_test
     ```
 
-3. Open the project in RStudio by clicking on the `holmusk-r-project.Rproj` file.
+3. Open the project in RStudio by clicking on the `holmusk_technical_test.Rproj` file.
 
 4. Once the project is open in RStudio, the `renv` package should automatically recognize the `renv.lock` file in the project directory. If `renv` is not yet installed, install it using the following command in the R console:
 
